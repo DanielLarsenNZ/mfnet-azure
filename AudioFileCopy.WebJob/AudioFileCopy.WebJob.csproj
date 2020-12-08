@@ -4,7 +4,7 @@
     <TargetFramework>net461</TargetFramework>
     <IsWebJobProject>true</IsWebJobProject>
     <WebJobName>$(AssemblyName)</WebJobName>
-    <WebJobType>Continuous</WebJobType>
+    <WebJobType>Triggered</WebJobType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
@@ -22,6 +22,20 @@
     <ProjectReference Include="..\AudioFileCopy\AudioFileCopy.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="AudioFileCopy.WebJob.runtimeconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Settings.job">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

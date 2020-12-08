@@ -29,8 +29,9 @@ az webapp create -n $webjobApp --plan $plan -g $rg --tags $tags
 #Write-Host "az webapp deployment source config -n $webjobApp" -ForegroundColor Yellow
 #az webapp deployment source config -n $webjobApp -g $rg --repo-url 'https://github.com/DanielLarsenNZ/mfnet-azure'
 
-# Configure always on
-az webapp config set -n $webjobApp -g $rg --always-on true
+# Disable ARR
+Write-Host "az webapp update -n $webjobApp --client-affinity-enabled false" -ForegroundColor Yellow
+az webapp update -n $webjobApp -g $rg --client-affinity-enabled false
 
 
 # SERVICE BUS
@@ -48,4 +49,9 @@ $servicebusConnectionString = ( az servicebus namespace authorization-rule keys 
 
 
 # APP SETTINGS
-az webapp config appsettings set -n $webjobApp -g $rg --settings "APPINSIGHTS_INSTRUMENTATIONKEY=$instrumentationKey" "AzureWebJobsStorage=$webjobsStorageConnection" "DataStorageConnectionString=$dataStorageConnection" "ServiceBusConnectionString=$servicebusConnectionString"
+az webapp config appsettings set -n $webjobApp -g $rg --settings `
+    "APPINSIGHTS_INSTRUMENTATIONKEY=$instrumentationKey" `
+    "AzureWebJobsStorage=$webjobsStorageConnection" `
+    "AzureWebJobsDashboard=$webjobsStorageConnection" `
+    "DataStorageConnectionString=$dataStorageConnection" `
+    "ServiceBusConnectionString=$servicebusConnectionString"

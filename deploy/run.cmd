@@ -1,1 +1,1 @@
-dotnet AudioFileCopy.WebJob.dll %*
+AudioFileCopy.WebJob.exe %*

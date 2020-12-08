@@ -1,0 +1,8 @@
+{
+    "runtimeOptions": {
+        "tfm": "net461",
+        "framework": {
+            "version": "4.6.1"
+          }
+    }
+}

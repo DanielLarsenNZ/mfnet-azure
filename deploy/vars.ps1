@@ -13,4 +13,4 @@ $numberWorkers = 1
 $servicebusNamespace = "mfnet-$loc-bus"
 $queues = 'audiofilecopy'
 $servicebusAuthRule = 'SenderReceiver1'
-$servicebusSku = 'Premium'
+$servicebusSku = 'Basic'

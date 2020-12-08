@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OISCommon", "OISCommon\OISC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TantaCommon", "TantaCommon\TantaCommon.csproj", "{96B554D1-CBFA-450D-A5BA-3A353F15C52B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioFileCopy.Functions", "AudioFileCopy.Functions\AudioFileCopy.Functions.csproj", "{6E57731E-E916-47AB-BD7E-FD7DE741342E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{96B554D1-CBFA-450D-A5BA-3A353F15C52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96B554D1-CBFA-450D-A5BA-3A353F15C52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96B554D1-CBFA-450D-A5BA-3A353F15C52B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E57731E-E916-47AB-BD7E-FD7DE741342E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E57731E-E916-47AB-BD7E-FD7DE741342E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E57731E-E916-47AB-BD7E-FD7DE741342E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E57731E-E916-47AB-BD7E-FD7DE741342E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
