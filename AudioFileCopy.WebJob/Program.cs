@@ -1,4 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace AudioFileCopy.WebJob
 {
@@ -7,18 +9,23 @@ namespace AudioFileCopy.WebJob
     {
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
-        static void Main()
+        static async Task Main()
         {
-            var config = new JobHostConfiguration();
-
-            if (config.IsDevelopment)
+            var builder = new HostBuilder();
+            builder.ConfigureWebJobs(b =>
             {
-                config.UseDevelopmentSettings();
+                b.AddAzureStorageCoreServices();
+                b.AddServiceBus(sbOptions =>
+                {
+                    sbOptions.MessageHandlerOptions.AutoComplete = true;
+                    sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
+                });
+            });
+            var host = builder.Build();
+            using (host)
+            {
+                await host.RunAsync();
             }
-
-            var host = new JobHost(config);
-            // The following code ensures that the WebJob will be running continuously
-            host.RunAndBlock();
         }
     }
 }

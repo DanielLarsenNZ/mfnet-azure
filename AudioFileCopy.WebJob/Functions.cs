@@ -8,7 +8,9 @@ namespace AudioFileCopy.WebJob
     {
         // This function will get triggered/executed when a new message is written 
         // on an Azure Queue called queue.
-        public static void ProcessQueueMessage([QueueTrigger("audiofilecopy")] string message, TextWriter log)
+        public static void ProcessQueueMessage(
+            [ServiceBusTrigger("audiofilecopy", Connection = "ServiceBusConnectionString")] string message, 
+            TextWriter log)
         {
             log.WriteLine(message);
 

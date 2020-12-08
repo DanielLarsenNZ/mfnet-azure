@@ -17,7 +17,7 @@ namespace AudioFileCopy.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            await messages.AddAsync("SampleAudio_0.4mb.mp3,SampleAudio_0.4mb_Copy.mp3");
+            await messages.AddAsync("https://mfnetdataaue.blob.core.windows.net/audio/SampleAudio_0.4mb.mp3,SampleAudio_0.4mb_Copy.mp3");
 
             return new OkObjectResult("Message sent OK");
         }
