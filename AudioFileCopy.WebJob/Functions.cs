@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,31 +14,37 @@ namespace AudioFileCopy.WebJob
 
         // This function will get triggered/executed when a new message is written 
         // on an Azure Queue called queue.
-        public static void ProcessQueueMessage(
-            [ServiceBusTrigger("audiofilecopy", Connection = "ServiceBusConnectionString")] string message,
-            [Blob("audio/{outputFile.Name}", FileAccess.Write, Connection = "DataStorageConnectionString")] FileStream outputFile,
+        public static void AudioFileCopy(
+            [BlobTrigger("audio/{name}", Connection = "DataStorageConnectionString")] Stream inputFile,
+            string name,
+            Uri uri,
+            [Blob("audio-output/{name}", FileAccess.Write, Connection = "DataStorageConnectionString")] Stream outputFile,
             ILogger log)
         {
             try
             {
-                log.LogInformation(message);
+                log.LogInformation($"Blob name = {name}, Uri = {uri}");
 
-                var args = message.Split(',');
+                string inputTempFilePath = Path.GetTempFileName();
+                string outputTempFilePath = $"{Path.GetTempFileName()}.mp3";
 
-                if (args.Length != 2) throw new Exception("sourceFile, outputFile");
+                log.LogInformation($"inputTempFilePath = {inputTempFilePath}, outputTempFilePath = {outputTempFilePath}");
 
-                var fileInfo = new FileInfo(args[1]);
-                string filename = fileInfo.Name;
-
-                string outputFilepath = $"{OutputPath}\\{filename}";
-                log.LogInformation($"outputFilepath = {outputFilepath}");
+                using (var fileStream = File.Create(inputTempFilePath))
+                {
+                    inputFile.CopyTo(fileStream);
+                }
 
                 using (var audioFileCopy = new AudioFileCopier())
                 {
-                    audioFileCopy.CopyFile(args[0], outputFilepath);
+                    audioFileCopy.CopyFile(inputTempFilePath, outputTempFilePath);
                 }
 
-                outputFile = new FileStream(outputFilepath, FileMode.Open);
+                using (var outputTempFile = new FileStream(outputTempFilePath, FileMode.Open))
+                    outputTempFile.CopyTo(outputFile);
+
+                log.LogInformation($"Audio copied to {uri.ToString().Replace("/audio/", "/audio-output/")}");
+
             }
             catch (Exception ex)
             {

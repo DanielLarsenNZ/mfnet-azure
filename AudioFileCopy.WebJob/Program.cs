@@ -15,11 +15,6 @@ namespace AudioFileCopy.WebJob
             builder.ConfigureWebJobs(b =>
             {
                 b.AddAzureStorageCoreServices();
-                b.AddServiceBus(sbOptions =>
-                {
-                    sbOptions.MessageHandlerOptions.AutoComplete = true;
-                    sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
-                });
                 b.AddAzureStorage();
             });
 
