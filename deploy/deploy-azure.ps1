@@ -15,7 +15,6 @@ $dataStorageConnection = ( az storage account show-connection-string -g $rg -n $
 
 
 # APPLICATION INSIGHTS
-#  https://docs.microsoft.com/en-us/cli/azure/ext/application-insights/monitor/app-insights/component?view=azure-cli-latest
 az extension add -n application-insights
 $instrumentationKey = ( az monitor app-insights component create --app $insights --location $location -g $rg --tags $tags | ConvertFrom-Json ).instrumentationKey
 
@@ -34,24 +33,9 @@ Write-Host "az webapp update -n $webjobApp --client-affinity-enabled false" -For
 az webapp update -n $webjobApp -g $rg --client-affinity-enabled false
 
 
-# SERVICE BUS
-# Create namespace, queue and auth rule
-az servicebus namespace create -g $rg --name $servicebusNamespace --location $location --tags $tags --sku $servicebusSku
-
-foreach ($queue in $queues) {
-    az servicebus queue create -g $rg --namespace-name $servicebusNamespace --name $queue --default-message-time-to-live 'P14D'
-}
-
-az servicebus namespace authorization-rule create -g $rg --namespace-name $servicebusNamespace --name $servicebusAuthRule --rights Listen Send
-
-# Get connection string
-$servicebusConnectionString = ( az servicebus namespace authorization-rule keys list -g $rg --namespace-name $servicebusNamespace --name $servicebusAuthRule | ConvertFrom-Json ).primaryConnectionString
-
-
 # APP SETTINGS
 az webapp config appsettings set -n $webjobApp -g $rg --settings `
     "APPINSIGHTS_INSTRUMENTATIONKEY=$instrumentationKey" `
     "AzureWebJobsStorage=$webjobsStorageConnection" `
     "AzureWebJobsDashboard=$webjobsStorageConnection" `
-    "DataStorageConnectionString=$dataStorageConnection" `
-    "ServiceBusConnectionString=$servicebusConnectionString"
+    "DataStorageConnectionString=$dataStorageConnection"
