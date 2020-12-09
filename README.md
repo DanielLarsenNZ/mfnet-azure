@@ -31,3 +31,7 @@ To test WebJob, upload an MP3 file to the **audio** container (create if not exi
 [MediaFoundation nuget](https://www.nuget.org/packages/MediaFoundation/)
 
 [How to create service bus trigger webjob?](https://stackoverflow.com/questions/58647763/how-to-create-service-bus-trigger-webjob)
+
+[Azure Blob storage output binding](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-output?tabs=csharp)
+
+[Get started with the Azure WebJobs SDK for event-driven background processing](https://docs.microsoft.com/en-us/azure/app-service/webjobs-sdk-get-started)
