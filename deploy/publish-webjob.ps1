@@ -3,8 +3,9 @@ $ErrorActionPreference = 'Stop'
 . ./vars.ps1
 
 # Package and zip the WebJob
-dotnet publish ..\AudioFileCopy.sln --configuration Release -o './_zip/app_data/Jobs/Triggered/AudioFileCopy.WebJob' -f net461 --no-self-contained
-copy ./run.cmd './_zip/app_data/Jobs/Triggered/AudioFileCopy.WebJob'
+rd ./_zip -Recurse -Force
+dotnet publish ..\AudioFileCopy.sln --configuration Release -o './_zip/app_data/Jobs/Continuous/AudioFileCopy.WebJob' -f net461 --no-self-contained
+copy ./run.cmd './_zip/app_data/Jobs/Continuous/AudioFileCopy.WebJob'
 Compress-Archive -Path ./_zip/* -DestinationPath ./deploy.zip -Force
 
 # Deploy source code

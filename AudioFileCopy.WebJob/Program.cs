@@ -1,5 +1,5 @@
-﻿using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace AudioFileCopy.WebJob
@@ -20,8 +20,17 @@ namespace AudioFileCopy.WebJob
                     sbOptions.MessageHandlerOptions.AutoComplete = true;
                     sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
                 });
+                b.AddAzureStorage();
             });
+
+            builder.ConfigureLogging(logging =>
+            {
+                logging.SetMinimumLevel(LogLevel.Information);
+                logging.AddApplicationInsightsWebJobs();
+            });
+
             var host = builder.Build();
+
             using (host)
             {
                 await host.RunAsync();
